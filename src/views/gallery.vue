@@ -62,7 +62,7 @@ const closeModal = () => {
 
 <style scoped>
 .container {
-  background-color: rgba(44, 41, 41, 0.2);
+  background-color: white;
   width: 100%;
   padding-top: 60px;
   font-family: 'Inter', sans-serif;

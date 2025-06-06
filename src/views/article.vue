@@ -4,17 +4,11 @@
 
         <div class="article-list container">
             <!-- 大文章展示 -->
-            <div class="article-content-big">
+            <!-- <div class="article-content-big">
                 <img src="../../static/post.jpeg" alt="文章封面" class="big-image" />
-                <h1 class="title">这里是文章的大标题</h1>
-                <p class="meta"><span>2025-04-05</span></p>
-                <p class="content">
-                    这是文章的详细内容摘要，可以展示一些关键段落或介绍文字。
-                </p>
             </div>
 
-            <!-- 小文章卡片列表 -->
-            <div class="article-content-small" v-for="(post, index) in posts" :key="index">
+            <div class="article-content-small" v-for="(post, index) in posts" :key="index" @click="openDrawer(post)">
                 <div class="card">
                     <img :src="post.thumbnail" alt="缩略图" class="thumbnail" />
                     <div class="card-body">
@@ -23,36 +17,94 @@
                         <p class="card-excerpt">{{ post.excerpt }}</p>
                     </div>
                 </div>
+            </div> -->
+
+            <!-- 小文章卡片列表 -->
+            <div class="post-cards">
+                <div class="post-card" v-for="(post, index) in posts" :key="index" @click="openDrawer(post)">
+                    <div class="post-image" :style="{ backgroundImage: 'url(' + post.thumbnail + ')' }"></div>
+                    <div class="post-info">
+                        <h3 class="post-title">{{ post.title }}</h3>
+                        <p class="post-excerpt">{{ post.excerpt }}</p>
+                        <a href="#" class="read-more">阅读更多 →</a>
+                    </div>
+                </div>
             </div>
         </div>
+
+
+
+        <el-drawer v-model="drawerVisible" title="文章详情" :with-header="false" size="40%">
+            <div v-if="selectedPost" class="paper-detail">
+                <h3>{{ selectedPost.title }}</h3>
+                <p class="title-en">{{ selectedPost.date }}</p>
+                <el-divider />
+                <div class="detail-item">
+                    <span class="label">标题：</span>
+                    <span>{{ selectedPost.title }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">发布日期：</span>
+                    <span>{{ selectedPost.date }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">摘要：</span>
+                    <span>{{ selectedPost.excerpt }}</span>
+                </div>
+                <el-divider />
+                <div class="thumbnail-container">
+                    <h4>文章封面</h4>
+                    <img :src="selectedPost.thumbnail" :alt="selectedPost.title" class="thumbnail" />
+                </div>
+            </div>
+        </el-drawer>
     </div>
 </template>
 
 <script setup>
 import NavBar from '../components/NavBar.vue'
 import { ref, onMounted } from 'vue'
-
+const drawerVisible = ref(false)
+const selectedPost = ref(null)
 const navbar = ref(null)
 const posts = ref([
     {
-        title: '技术探索之旅 #1',
-        date: '2025-04-01',
-        excerpt: '深入理解现代前端架构与工程实践的核心要点。',
-        thumbnail: '/static/post.jpeg'
+        title: 'Vite+Vue的学习路线 #1',
+        excerpt: '全面规划学习路径，从基础到高级，逐步深入。',
+        thumbnail: '/static/index-article/ij.png',
     },
     {
-        title: '技术探索之旅 #2',
-        date: '2025-04-02',
-        excerpt: '构建可维护和高性能 Vue 应用的最佳实践。',
-        thumbnail: '/static/post.jpeg'
+        title: 'intellij的maven报错 #2',
+        excerpt: '详细解决maven配置问题，确保项目正常运行。',
+        thumbnail: '/static/index-article/vuevite.png',
     },
     {
-        title: '技术探索之旅 #3',
-        date: '2025-04-03',
-        excerpt: '探讨 Web 性能优化策略与工具链配置技巧。',
-        thumbnail: '/static/post.jpeg'
+        title: '交通预测+深度学习 #3',
+        excerpt: '分享交通预测项目的实战经验，深入了解深度学习技术。',
+        thumbnail: '/static/index-article/pdformer.png',
+    }, 
+    {
+        title: 'Vite+Vue的学习路线 #1',
+        excerpt: '全面规划学习路径，从基础到高级，逐步深入。',
+        thumbnail: '/static/index-article/ij.png',
+    },
+    {
+        title: 'intellij的maven报错 #2',
+        excerpt: '详细解决maven配置问题，确保项目正常运行。',
+        thumbnail: '/static/index-article/vuevite.png',
+    },
+    {
+        title: '交通预测+深度学习 #3',
+        excerpt: '分享交通预测项目的实战经验，深入了解深度学习技术。',
+        thumbnail: '/static/index-article/pdformer.png',
     }
 ])
+
+
+const openDrawer = (post) => {
+    selectedPost.value = post
+    drawerVisible.value = true
+}
 
 const handleScroll = () => {
     const scrollTop = window.scrollY || document.documentElement.scrollTop
@@ -65,9 +117,9 @@ const handleScroll = () => {
         navbarElement.style.borderBottom = '1px solid rgba(0, 0, 0, 0.1)'
 
         // 使用 setProperty 设置 !important 样式
-        navbarElement.querySelectorAll('.el-menu-item').forEach(item => {
-            item.style.setProperty('color', '#000000', 'important')
-        })
+        // navbarElement.querySelectorAll('.el-menu-item').forEach(item => {
+        //     item.style.setProperty('color', '#000000', 'important')
+        // })
 
         navbarElement.style.position = 'fixed'
         navbarElement.style.top = '0'
@@ -79,9 +131,9 @@ const handleScroll = () => {
         navbarElement.style.borderBottom = 'none'
 
         // 恢复白色字体
-        navbarElement.querySelectorAll('.el-menu-item').forEach(item => {
-            item.style.setProperty('color', '#ffffff', 'important')
-        })
+        // navbarElement.querySelectorAll('.el-menu-item').forEach(item => {
+        //     item.style.setProperty('color', '#ffffff', 'important')
+        // })
 
         navbarElement.style.position = 'absolute'
         navbarElement.style.top = '0'
@@ -96,7 +148,7 @@ onMounted(() => {
 
 <style scoped>
 .article {
-    background-color: rgba(44, 41, 41, 0.2);
+    background-color: white;
     width: 100%;
     padding-top: 60px;
     font-family: 'Inter', sans-serif;
@@ -105,7 +157,7 @@ onMounted(() => {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 0.5rem 1rem;
 }
 
 /* 大文章样式 */
@@ -194,5 +246,104 @@ onMounted(() => {
 .card-excerpt {
     font-size: 0.95rem;
     color: #666;
+}
+
+/* 抽屉内容样式 */
+.paper-detail {
+    padding: 20px;
+}
+
+.detail-item {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+}
+
+.detail-item .label {
+    font-weight: bold;
+    width: 80px;
+    color: #666;
+}
+
+.thumbnail-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.thumbnail {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 文章卡片容器 */
+.post-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* 博客卡片样式 */
+.post-card {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(5px);
+    height: 25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* 图片部分 */
+.post-image {
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px 10px 0 0;
+}
+
+/* 内容信息部分 */
+.post-info {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: rgb(0, 0, 0);
+    flex-grow: 1;
+}
+
+.post-title {
+    font-size: 1.5rem;
+    color: #000000;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.post-excerpt {
+    font-size: 0.95rem;
+    color: #1b1818;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.read-more {
+    align-self: flex-start;
+    font-weight: bold;
+    color: #000000;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.read-more:hover {
+    color: #f54747;
 }
 </style>

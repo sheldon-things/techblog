@@ -17,8 +17,10 @@
     <div id="content-section" class="content-section">
       <!-- 博客卡片 -->
       <div class="subtitle">热门文章</div>
+
+      <!-- 博客卡片 -->
       <div class="post-card" v-for="(post, index) in posts" :key="index">
-        <div class="post-image"></div>
+        <div class="post-image" :style="{ backgroundImage: 'url(' + post.image + ')' }"></div>
         <div class="post-info">
           <h3 class="post-title">{{ post.title }}</h3>
           <p class="post-excerpt">{{ post.excerpt }}</p>
@@ -30,10 +32,6 @@
       <div class="swipper-wrapper">
         <div class="swipper text-center">
           <el-carousel class="swipper-el-carousel" height="300px" motion-blur>
-            <!-- <el-carousel-item v-for="item in 4" :key="item">
-              <h3 class="small justify-center" text="2xl">{{ item }}</h3>
-            </el-carousel-item> -->
-
             <el-carousel-item v-for="(image, index) in carouselImages" :key="index">
               <img :src="image" alt="carousel-image" class="carousel-image" />
             </el-carousel-item>
@@ -194,16 +192,19 @@ const galleryBackgroundStyle = computed(() => ({
 
 const posts = ref([
   {
-    title: '技术探索之旅 #1',
-    excerpt: '深入理解现代前端架构与工程实践的核心要点。'
+    title: 'Vite+Vue的学习路线 #1',
+    excerpt: '全面规划学习路径，从基础到高级，逐步深入。',
+    image: '/static/index-article/ij.png',
   },
   {
-    title: '技术探索之旅 #2',
-    excerpt: '构建可维护和高性能 Vue 应用的最佳实践。'
+    title: 'intellij的maven报错 #2',
+    excerpt: '详细解决maven配置问题，确保项目正常运行。',
+    image: '/static/index-article/vuevite.png',
   },
   {
-    title: '技术探索之旅 #3',
-    excerpt: '探讨 Web 性能优化策略与工具链配置技巧。'
+    title: '交通预测+深度学习 #3',
+    excerpt: '分享交通预测项目的实战经验，深入了解深度学习技术。',
+    image: '/static/index-article/pdformer.png',
   }
 ])
 
@@ -279,9 +280,9 @@ const handleScroll = () => {
     navbarElement.style.borderBottom = '1px solid rgba(0, 0, 0, 0.1)'
 
     // 使用 setProperty 设置 !important 样式
-    navbarElement.querySelectorAll('.el-menu-item').forEach(item => {
-      item.style.setProperty('color', '#000000', 'important')
-    })
+    // navbarElement.querySelectorAll('.el-menu-item').forEach(item => {
+    //   item.style.setProperty('color', '#000000', 'important')
+    // })
 
     navbarElement.style.position = 'fixed'
     navbarElement.style.top = '0'
@@ -293,9 +294,9 @@ const handleScroll = () => {
     navbarElement.style.borderBottom = 'none'
 
     // 恢复白色字体
-    navbarElement.querySelectorAll('.el-menu-item').forEach(item => {
-      item.style.setProperty('color', '#ffffff', 'important')
-    })
+    // navbarElement.querySelectorAll('.el-menu-item').forEach(item => {
+    //   item.style.setProperty('color', '#ffffff', 'important')
+    // })
 
     navbarElement.style.position = 'absolute'
     navbarElement.style.top = '0'
@@ -532,7 +533,7 @@ const submitForm = () => {
 .hero-image {
   position: relative;
   height: 100vh;
-  background: url('../../static/hero.jpg') center/cover no-repeat;
+  background: url('../../static/hero3.jpg') center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -841,7 +842,7 @@ const submitForm = () => {
 
 /* 博客卡片样式 */
 .post-card {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: white;
   /* 更深的半透明背景 */
   border-radius: 10px;
   overflow: hidden;
@@ -857,10 +858,11 @@ const submitForm = () => {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
 }
 
-/* 博客图片部分 */
+
 .post-image {
   height: 220px;
-  background: url('../../static/post.jpeg') center/cover no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 /* 博客信息部分 */
@@ -873,7 +875,7 @@ const submitForm = () => {
 
 .post-title {
   font-size: 1.5rem;
-  color: #ffffff;
+  color: #100f0f;
   /* 白色标题 */
   margin-bottom: 0.5rem;
   line-height: 1.4;
@@ -881,7 +883,7 @@ const submitForm = () => {
 
 .post-excerpt {
   font-size: 0.95rem;
-  color: #e0e0e0;
+  color: #1c1a1a;
   /* 稍暗的浅灰色文字 */
   margin-bottom: 1rem;
   line-height: 1.6;
@@ -898,7 +900,7 @@ const submitForm = () => {
 
 .read-more:hover {
 
-  color: #ddf5aa;
+  color: #f54747;
 }
 
 .demonstration {

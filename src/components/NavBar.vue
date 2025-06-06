@@ -11,7 +11,7 @@
             <router-link to="/paper" style="display: block; width: 100%;">论文</router-link>
         </el-menu-item>
         <el-menu-item index="3">
-            <router-link to="/article" style="display: block; width: 100%;">新闻</router-link>
+            <router-link to="/article" style="display: block; width: 100%;">文章</router-link>
         </el-menu-item>
         <el-menu-item index="4">
             <router-link to="/gallery" style="display: block; width: 100%;">图库</router-link>
@@ -19,7 +19,9 @@
         <el-menu-item index="5">
             <router-link to="/admin" style="display: block; width: 100%;">后台管理</router-link>
         </el-menu-item>
-        <el-menu-item index="6">关于</el-menu-item>
+        <el-menu-item index="6">
+            <router-link to="/about" style="display: block; width: 100%;">关于我</router-link>
+        </el-menu-item>
         <div class="search-box">
             <input type="text" placeholder="搜索文章/图库/日记/资源" />
             <button class="search-button">搜索</button>
@@ -28,7 +30,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -43,6 +45,14 @@ watch(
             activeIndex.value = '3'
         } else if (newPath === '/gallery') {
             activeIndex.value = '4'
+        }
+        else if (newPath === '/admin') {
+            activeIndex.value = '5'
+        }
+        else if (newPath === '/about') {
+            activeIndex.value = '6'
+        } else if (newPath === '/paper') {
+            activeIndex.value = '2'
         }
         else {
             activeIndex.value = '1' // 或者根据路径匹配更多页面
@@ -76,7 +86,7 @@ const handleSelect = (key, keyPath) => {
 }
 
 .el-menu--horizontal.el-menu-demo.navbar>.el-menu-item {
-    color: white !important;
+    color: rgb(0, 0, 0) !important;
     padding: 0.3rem 0.8rem !important;
     border-radius: 5px;
     transition: all 0.3s ease;
