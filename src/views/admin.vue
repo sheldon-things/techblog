@@ -1,85 +1,85 @@
 <template>
     <div class="common-layout">
         <el-container>
-            <el-header>
-                <NavBar ref="navbar" />
-            </el-header>
-
+            <NavBar ref="navbar" />
             <!-- 只有登录才显示管理布局 -->
-            <el-container v-if="isLoggedIn">
+            <el-container v-if="isLoggedIn" class="admin-container">
                 <el-main>
-                    <el-container class="layout-container-demo" style="height: 500px">
+                    <el-container class="layout-container-demo" style="height: 750px">
                         <el-aside width="200px">
                             <el-scrollbar>
                                 <el-menu>
                                     <el-sub-menu index="1">
                                         <template #title>
                                             <el-icon>
-                                                <message />
+                                                <House />
                                             </el-icon>首页管理
                                         </template>
-                                        <el-menu-item index="1-1">Option 1</el-menu-item>
-                                        <el-menu-item index="1-2">Option 2</el-menu-item>
+                                        <el-menu-item index="1-1" @click="handleMenuClick('1-1')">
+                                            - 更换背景图
+                                        </el-menu-item>
+                                        <el-menu-item index="1-2" @click="handleMenuClick('1-2')">
+                                            - 修改联系方式
+                                        </el-menu-item>
                                     </el-sub-menu>
                                     <el-sub-menu index="2">
                                         <template #title>
-                                            <el-icon><icon-menu /></el-icon>文章管理
+                                            <el-icon>
+                                                <Notebook />
+                                            </el-icon>
+                                            文章管理
                                         </template>
-                                        <el-menu-item index="2-1">Option 1</el-menu-item>
-                                        <el-menu-item index="2-2">Option 2</el-menu-item>
+                                        <el-menu-item index="2-1" @click="handleMenuClick('2-1')">- 添加</el-menu-item>
+                                        <el-menu-item index="2-2" @click="handleMenuClick('2-1')">- 删除</el-menu-item>
                                     </el-sub-menu>
                                     <el-sub-menu index="3">
                                         <template #title>
                                             <el-icon>
-                                                <setting />
+                                                <DocumentCopy />
                                             </el-icon>论文管理
                                         </template>
-                                        <el-menu-item index="3-1">Option 1</el-menu-item>
-                                        <el-menu-item index="3-2">Option 2</el-menu-item>
+                                        <el-menu-item index="3-1" @click="handleMenuClick('3-1')" >- 添加</el-menu-item>
+                                        <el-menu-item index="3-2" @click="handleMenuClick('3-2')" >- 删除</el-menu-item>
                                     </el-sub-menu>
 
                                     <el-sub-menu index="4">
                                         <template #title>
                                             <el-icon>
-                                                <setting />
+                                                <el-icon>
+                                                    <Picture />
+                                                </el-icon>
                                             </el-icon>图库管理
                                         </template>
-                                        <el-menu-item index="4-1">Option 1</el-menu-item>
-                                        <el-menu-item index="4-2">Option 2</el-menu-item>
+                                        <el-menu-item index="4-1" @click="handleMenuClick('4-1')" >- 添加</el-menu-item>
+                                        <el-menu-item index="4-2" @click="handleMenuClick('4-2')" >- 删除</el-menu-item>
 
                                     </el-sub-menu>
 
                                     <el-sub-menu index="5">
                                         <template #title>
                                             <el-icon>
-                                                <setting />
+                                                <User />
                                             </el-icon>关于我
                                         </template>
-                                        <el-menu-item index="5-1">Option 1</el-menu-item>
-                                        <el-menu-item index="5-2">Option 2</el-menu-item>
-
+                                        <el-menu-item index="5-1" @click="handleMenuClick('5-1')" >修改内容</el-menu-item>
                                     </el-sub-menu>
 
                                     <el-sub-menu index="6">
                                         <template #title>
                                             <el-icon>
-                                                <setting />
+                                                <ChatDotRound />
                                             </el-icon>留言墙
                                         </template>
-                                        <el-menu-item index="6-1">Option 1</el-menu-item>
-                                        <el-menu-item index="6-2">Option 2</el-menu-item>
-
+                                        <el-menu-item index="6-1" @click="handleMenuClick('6-1')" >查看留言</el-menu-item>
                                     </el-sub-menu>
 
                                     <el-sub-menu index="7">
                                         <template #title>
                                             <el-icon>
-                                                <setting />
+                                                <Message />
                                             </el-icon>联系我
                                         </template>
-                                        <el-menu-item index="7-1">Option 1</el-menu-item>
-                                        <el-menu-item index="7-2">Option 2</el-menu-item>
-
+                                        <el-menu-item index="7-1" @click="handleMenuClick('7-1')" >新消息</el-menu-item>
                                     </el-sub-menu>
                                 </el-menu>
                             </el-scrollbar>
@@ -94,19 +94,26 @@
                                         </el-icon>
                                         <template #dropdown>
                                             <el-dropdown-menu>
-                                                <el-dropdown-item>View</el-dropdown-item>
-                                                <el-dropdown-item>Add</el-dropdown-item>
-                                                <el-dropdown-item>Delete</el-dropdown-item>
+                                                <el-dropdown-item>修改设置</el-dropdown-item>
+                                                <el-dropdown-item>重置密码</el-dropdown-item>
+                                                <el-dropdown-item @click="handleLogout">退出登录</el-dropdown-item>
                                             </el-dropdown-menu>
                                         </template>
                                     </el-dropdown>
-                                    <span>Tom</span>
+                                    <span>Admin</span>
                                 </div>
                             </el-header>
 
                             <el-main>
                                 <el-scrollbar>
-                                    <h1>nihao</h1>
+                                    <!-- 动态组件区域 -->
+                                    <component :is="activeComponent" />
+
+                                    <!-- 默认显示内容 -->
+                                    <div v-if="!activeComponent" class="default-content">
+                                        <h1>欢迎使用管理后台</h1>
+                                        <p>请从左侧菜单选择管理项目</p>
+                                    </div>
                                 </el-scrollbar>
                             </el-main>
                         </el-container>
@@ -115,23 +122,36 @@
                 </el-main>
             </el-container>
 
-
-            <!-- 未登录时显示登录表单 -->
             <div v-else class="login-wrapper">
-                <div class="login-form">
-                    <h2>管理员登录</h2>
-                    <el-form @submit.prevent="handleLogin">
-                        <el-form-item label="用户名">
-                            <el-input v-model="loginForm.username" />
-                        </el-form-item>
-                        <el-form-item label="密码">
-                            <el-input v-model="loginForm.password" type="password" show-password />
-                        </el-form-item>
-                        <el-button type="primary" native-type="submit" style="width: 100%">登录</el-button>
-                    </el-form>
+                <!-- 左侧图片区域 -->
+                <div class="left-container">
+                </div>
+
+                <div class="right-container">
+                    <div class="login-form">
+                        <h2>管理员登录</h2>
+                        <el-form ref="form" :model="loginForm" :rules="rules">
+                            <el-form-item label="账号" prop="username">
+                                <el-input v-model="loginForm.username" />
+                            </el-form-item>
+
+                            <el-form-item label="密码" prop="password">
+                                <el-input v-model="loginForm.password" type="password" show-password />
+                            </el-form-item>
+
+                            <el-form-item prop="remember" class="remember-me-right">
+                                <el-checkbox v-model:checked="loginForm.remember">记住我</el-checkbox>
+                            </el-form-item>
+
+                            <el-form-item>
+                                <el-button type="primary" class="login_btn" @click="handleLogin" style="width: 100%">
+                                    登录
+                                </el-button>
+                            </el-form-item>
+                        </el-form>
+                    </div>
                 </div>
             </div>
-
 
 
         </el-container>
@@ -140,21 +160,75 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
+import { ref, onMounted, shallowRef } from 'vue'
+import { ElMessage } from 'element-plus'
+import { House, Notebook, DocumentCopy, Picture, User, ChatDotRound, Message, Setting } from '@element-plus/icons-vue'
+
+// 导入各个管理组件
+import BackgroundManage from '../components/admin/BackgroundManage.vue'
+import ArticleManage from '../components/admin/ArticleManage.vue'
+import PaperManage from '../components/admin/PaperManage.vue'
+import GalleryManage from '../components/admin/GalleryManage.vue'
+import AboutMe from '../components/admin/AboutMe.vue'
+import MessageWall from '../components/admin/MessageWall.vue'
+import ContactMe from '../components/admin/ContactMe.vue'
+import ChangeContact from '../components/admin/ChangeContact.vue'
+// 当前激活的组件
+const activeComponent = shallowRef(null)
+
 import NavBar from '../components/NavBar.vue'
+// 菜单点击处理
+const handleMenuClick = (index: string) => {
+    switch (index) {
+        case '1-1':
+            activeComponent.value = BackgroundManage
+            break
+        case '1-2':
+            activeComponent.value = ChangeContact
+        case '2-1':
+            activeComponent.value = ArticleManage
+            break
+        case '2-2':
+            activeComponent.value = ArticleManage
+            break
+        case '3-1':
+            activeComponent.value = PaperManage
+            break
+        case '4-1':
+            activeComponent.value = GalleryManage
+            break
+        case '5-1':
+            activeComponent.value = AboutMe
+            break
+        case '6-1':
+            activeComponent.value = MessageWall
+            break
+        case '7-1':
+            activeComponent.value = ContactMe
+            break
+        default:
+            activeComponent.value = null
+    }
+}
 
 const loginForm = ref({
     username: '',
-    password: ''
+    password: '',
+    remember: false
 })
-const isLoggedIn = ref(false)
 
-// 模拟登录校验逻辑
+const rules = {
+    username: [
+        { required: true, message: '请输入用户名', trigger: 'blur' }
+    ],
+    password: [
+        { required: true, message: '请输入密码', trigger: 'blur' }
+    ]
+}
+
 const handleLogin = () => {
     const { username, password } = loginForm.value
 
-    // 这里可以替换为真实 API 请求
     if (username === 'admin' && password === '123456') {
         localStorage.setItem('adminToken', 'authenticated')
         isLoggedIn.value = true
@@ -162,6 +236,8 @@ const handleLogin = () => {
         alert('用户名或密码错误')
     }
 }
+
+const isLoggedIn = ref(false)
 
 onMounted(() => {
     // 页面加载时检查登录状态
@@ -171,18 +247,64 @@ onMounted(() => {
     }
 })
 
+const handleLogout = () => {
+    localStorage.removeItem('adminToken');
+    ElMessage.success('您已成功退出登录');
+    // 刷新页面
+    setTimeout(() => {
+        isLoggedIn.value = false;
+        window.location.reload();
+    }, 2000);
+}
+
 </script>
 
 <style scoped>
+.login-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background-color: #ffffff;
+}
+
+.left-container {
+    width: 50%;
+    height: 100vh;
+    background: url('/static/hero.jpg') no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.right-container {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    height: 23rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 保留其他原有样式不变 */
 .layout-container-demo .el-header {
     position: relative;
-    background-color: var(--el-color-primary-light-7);
+    /* background-color: var(--el-color-primary-light-7); */
+    background-color: rgba(148, 169, 221, 0.5) !important; /* 强制生效 */
     color: var(--el-text-color-primary);
 }
 
 .layout-container-demo .el-aside {
     color: var(--el-text-color-primary);
-    background: var(--el-color-primary-light-8);
+    /* background: var(--el-color-primary-light-8); */
 }
 
 .layout-container-demo .el-menu {
@@ -193,6 +315,11 @@ onMounted(() => {
     padding: 0;
 }
 
+/* .el-container {
+    height: 100%;
+    width: 100%;
+} */
+
 .layout-container-demo .toolbar {
     display: inline-flex;
     align-items: center;
@@ -201,19 +328,40 @@ onMounted(() => {
     right: 20px;
 }
 
-.login-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f5f7fa;
+.login-form h2 {
+    margin: 2rem 0;
 }
 
-.login-form {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 400px;
+.login_btn {
+    background: linear-gradient(90deg, #00d4ff, #7a00ff);
+    border: none;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.login_btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.remember-me-right {
+    margin-left: 6rem;
+}
+
+.admin-container {
+    margin-top: 60px;
+    height: 100%;
+    width: 100%;
+}
+
+.default-content {
+    text-align: center;
+    padding-top: 100px;
+    color: #666;
+}
+
+.el-menu-item {
+    padding-left: 3rem!important;
 }
 </style>
