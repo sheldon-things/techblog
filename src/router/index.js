@@ -14,7 +14,22 @@ const routes = [
     path: '/article',
     name: 'Article',
     component: () => import('../views/article.vue')
-  }
+  },
+  {
+    path: '/gallery',
+    name: 'Gallery',
+    component: () => import('../views/gallery.vue')
+  },
+  {
+    path: '/paper',
+    name: 'Paper',
+    component: () => import('../views/paper.vue')
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: () => import('../views/admin.vue')
+  },
 ];
 
 const router = createRouter({

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
     "element-plus": "^2.9.11",
     "swiper": "^11.2.8",
     "tsparticles": "^3.8.1",

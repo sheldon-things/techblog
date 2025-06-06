@@ -137,14 +137,14 @@
 
           <form class="contact-form" @submit.prevent="submitForm">
             <div class="form-group">
-              <el-input v-model="username" style="width: 240px" placeholder="姓名"/>
+              <el-input v-model="username" style="width: 240px" placeholder="姓名" />
             </div>
             <div class="form-group">
-              <el-input v-model="email" style="width: 240px" placeholder="邮箱"/>
+              <el-input v-model="email" style="width: 240px" placeholder="邮箱" />
             </div>
             <div class="form-group">
-              <el-input v-model="textarea" maxlength="100" style="width: 240px" placeholder="留言内容"
-                show-word-limit type="textarea" />
+              <el-input v-model="textarea" maxlength="100" style="width: 240px" placeholder="留言内容" show-word-limit
+                type="textarea" />
             </div>
             <button type="submit" class="submit-btn">发送消息</button>
           </form>

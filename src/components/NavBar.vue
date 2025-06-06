@@ -8,10 +8,17 @@
             <router-link to="/" style="display: block; width: 100%;">首页</router-link>
         </el-menu-item>
         <el-menu-item index="2">
-            <router-link to="/article" style="display: block; width: 100%;">文章</router-link>
+            <router-link to="/paper" style="display: block; width: 100%;">论文</router-link>
         </el-menu-item>
-        <el-menu-item index="4">图库</el-menu-item>
-        <el-menu-item index="5">后台管理</el-menu-item>
+        <el-menu-item index="3">
+            <router-link to="/article" style="display: block; width: 100%;">新闻</router-link>
+        </el-menu-item>
+        <el-menu-item index="4">
+            <router-link to="/gallery" style="display: block; width: 100%;">图库</router-link>
+        </el-menu-item>
+        <el-menu-item index="5">
+            <router-link to="/admin" style="display: block; width: 100%;">后台管理</router-link>
+        </el-menu-item>
         <el-menu-item index="6">关于</el-menu-item>
         <div class="search-box">
             <input type="text" placeholder="搜索文章/图库/日记/资源" />
@@ -33,8 +40,11 @@ watch(
     () => route.path,
     (newPath) => {
         if (newPath === '/article') {
-            activeIndex.value = '2'
-        } else {
+            activeIndex.value = '3'
+        } else if (newPath === '/gallery') {
+            activeIndex.value = '4'
+        }
+        else {
             activeIndex.value = '1' // 或者根据路径匹配更多页面
         }
     },
