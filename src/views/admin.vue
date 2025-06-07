@@ -30,7 +30,7 @@
                                             文章管理
                                         </template>
                                         <el-menu-item index="2-1" @click="handleMenuClick('2-1')">- 添加</el-menu-item>
-                                        <el-menu-item index="2-2" @click="handleMenuClick('2-1')">- 删除</el-menu-item>
+                                        <el-menu-item index="2-2" @click="handleMenuClick('2-2')">- 删除</el-menu-item>
                                     </el-sub-menu>
                                     <el-sub-menu index="3">
                                         <template #title>
@@ -173,6 +173,9 @@ import AboutMe from '../components/admin/AboutMe.vue'
 import MessageWall from '../components/admin/MessageWall.vue'
 import ContactMe from '../components/admin/ContactMe.vue'
 import ChangeContact from '../components/admin/ChangeContact.vue'
+import ArticleAdd from '../components/admin/ArticleAdd.vue'
+import ArticleDelete from '../components/admin/ArticleDelete.vue'
+
 // 当前激活的组件
 const activeComponent = shallowRef(null)
 
@@ -184,12 +187,13 @@ const handleMenuClick = (index: string) => {
             activeComponent.value = BackgroundManage
             break
         case '1-2':
-            activeComponent.value = ChangeContact
+            activeComponent.value = ContactMe
+            break
         case '2-1':
-            activeComponent.value = ArticleManage
+            activeComponent.value = ArticleAdd
             break
         case '2-2':
-            activeComponent.value = ArticleManage
+            activeComponent.value = ArticleDelete
             break
         case '3-1':
             activeComponent.value = PaperManage
