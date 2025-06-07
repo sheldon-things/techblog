@@ -23,13 +23,9 @@
 
             <!-- 文章内容 -->
             <el-form-item label="文章内容">
-                <el-input v-model="form.content" type="textarea" :rows="6" placeholder="请输入文章内容" />
-            </el-form-item>
-
-            <!-- 文章内容 -->
-            <el-form-item label="文章内容">
-                <quill-editor v-model="form.content" />
-                
+                <div style="width: 100%;">
+                    <QuillEditor theme="snow" v-model="form.content" toolbar="minimal"/>
+                </div>
             </el-form-item>
 
             <!-- 编辑人员 -->
@@ -107,7 +103,7 @@ const handleImageChange = (file, fileList) => {
 </script>
 
 <style scoped>
-.article-add-container {
+article-add-container {
     padding: 30px;
     background-color: #f9fafb;
     /* max-width: 1200px; */
@@ -122,4 +118,5 @@ h2 {
 .el-form-item {
     margin-bottom: 20px;
 }
+
 </style>

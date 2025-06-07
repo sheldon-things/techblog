@@ -105,7 +105,7 @@
                             </el-header>
 
                             <el-main>
-                                <el-scrollbar>
+                                <el-scrollbar class="main-scrollbar">
                                     <!-- 动态组件区域 -->
                                     <component :is="activeComponent" />
 
@@ -367,5 +367,10 @@ const handleLogout = () => {
 
 .el-menu-item {
     padding-left: 3rem!important;
+}
+
+.main-scrollbar {
+    padding-top: 10px;
+    padding-left: 10px;
 }
 </style>
