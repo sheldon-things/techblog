@@ -8,7 +8,7 @@
                     <el-container class="layout-container-demo" style="height: 750px">
                         <el-aside width="200px">
                             <el-scrollbar>
-                                <el-menu>
+                                <el-menu :unique-opened="true">
                                     <el-sub-menu index="1">
                                         <template #title>
                                             <el-icon>
@@ -38,8 +38,8 @@
                                                 <DocumentCopy />
                                             </el-icon>论文管理
                                         </template>
-                                        <el-menu-item index="3-1" @click="handleMenuClick('3-1')" >- 添加</el-menu-item>
-                                        <el-menu-item index="3-2" @click="handleMenuClick('3-2')" >- 删除</el-menu-item>
+                                        <el-menu-item index="3-1" @click="handleMenuClick('3-1')">- 添加</el-menu-item>
+                                        <el-menu-item index="3-2" @click="handleMenuClick('3-2')">- 删除</el-menu-item>
                                     </el-sub-menu>
 
                                     <el-sub-menu index="4">
@@ -50,8 +50,8 @@
                                                 </el-icon>
                                             </el-icon>图库管理
                                         </template>
-                                        <el-menu-item index="4-1" @click="handleMenuClick('4-1')" >- 添加</el-menu-item>
-                                        <el-menu-item index="4-2" @click="handleMenuClick('4-2')" >- 删除</el-menu-item>
+                                        <el-menu-item index="4-1" @click="handleMenuClick('4-1')">- 添加</el-menu-item>
+                                        <el-menu-item index="4-2" @click="handleMenuClick('4-2')">- 删除</el-menu-item>
 
                                     </el-sub-menu>
 
@@ -61,7 +61,7 @@
                                                 <User />
                                             </el-icon>关于我
                                         </template>
-                                        <el-menu-item index="5-1" @click="handleMenuClick('5-1')" >修改内容</el-menu-item>
+                                        <el-menu-item index="5-1" @click="handleMenuClick('5-1')">- 修改内容</el-menu-item>
                                     </el-sub-menu>
 
                                     <el-sub-menu index="6">
@@ -70,7 +70,7 @@
                                                 <ChatDotRound />
                                             </el-icon>留言墙
                                         </template>
-                                        <el-menu-item index="6-1" @click="handleMenuClick('6-1')" >查看留言</el-menu-item>
+                                        <el-menu-item index="6-1" @click="handleMenuClick('6-1')">查看留言</el-menu-item>
                                     </el-sub-menu>
 
                                     <el-sub-menu index="7">
@@ -79,7 +79,7 @@
                                                 <Message />
                                             </el-icon>联系我
                                         </template>
-                                        <el-menu-item index="7-1" @click="handleMenuClick('7-1')" >新消息</el-menu-item>
+                                        <el-menu-item index="7-1" @click="handleMenuClick('7-1')">新消息</el-menu-item>
                                     </el-sub-menu>
                                 </el-menu>
                             </el-scrollbar>
@@ -166,15 +166,15 @@ import { House, Notebook, DocumentCopy, Picture, User, ChatDotRound, Message, Se
 
 // 导入各个管理组件
 import BackgroundManage from '../components/admin/BackgroundManage.vue'
-import ArticleManage from '../components/admin/ArticleManage.vue'
-import PaperManage from '../components/admin/PaperManage.vue'
-import GalleryManage from '../components/admin/GalleryManage.vue'
 import AboutMe from '../components/admin/AboutMe.vue'
 import MessageWall from '../components/admin/MessageWall.vue'
 import ContactMe from '../components/admin/ContactMe.vue'
-import ChangeContact from '../components/admin/ChangeContact.vue'
 import ArticleAdd from '../components/admin/ArticleAdd.vue'
 import ArticleDelete from '../components/admin/ArticleDelete.vue'
+import PaperAdd from '../components/admin/PaperAdd.vue'
+import PaperDelete from '../components/admin/PaperDelete.vue'
+import GalleryAdd from '../components/admin/GalleryAdd.vue'
+import GalleryDelete from '../components/admin/GalleryDelete.vue'
 
 // 当前激活的组件
 const activeComponent = shallowRef(null)
@@ -196,10 +196,16 @@ const handleMenuClick = (index: string) => {
             activeComponent.value = ArticleDelete
             break
         case '3-1':
-            activeComponent.value = PaperManage
+            activeComponent.value = PaperAdd
+            break
+        case '3-2':
+            activeComponent.value = PaperDelete
             break
         case '4-1':
-            activeComponent.value = GalleryManage
+            activeComponent.value = GalleryAdd
+            break
+        case '4-2':
+            activeComponent.value = GalleryDelete
             break
         case '5-1':
             activeComponent.value = AboutMe
@@ -302,7 +308,8 @@ const handleLogout = () => {
 .layout-container-demo .el-header {
     position: relative;
     /* background-color: var(--el-color-primary-light-7); */
-    background-color: rgba(148, 169, 221, 0.5) !important; /* 强制生效 */
+    background-color: rgba(148, 169, 221, 0.5) !important;
+    /* 强制生效 */
     color: var(--el-text-color-primary);
 }
 
@@ -366,7 +373,7 @@ const handleLogout = () => {
 }
 
 .el-menu-item {
-    padding-left: 3rem!important;
+    padding-left: 3rem !important;
 }
 
 .main-scrollbar {

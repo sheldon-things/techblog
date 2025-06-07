@@ -134,13 +134,6 @@ const tableData: Article[] = [
 <style scoped>
 .article-table-container {
     padding: 20px;
-    background-color: #ffffff;
-    max-width: 1200px;
-    /* 使用max-width而不是固定width */
-    width: 100%;
-    /* 添加宽度100% */
-    margin: 0 auto;
-    box-sizing: border-box;
 }
 
 .action-buttons {

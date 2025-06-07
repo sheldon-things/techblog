@@ -1,6 +1,7 @@
 <template>
     <div class="article-add-container">
         <h2>添加新文章</h2>
+
         <el-form :model="form" label-width="120px" style="max-width: 800px">
             <!-- 标题 -->
             <el-form-item label="文章标题">
@@ -12,27 +13,20 @@
                 <el-date-picker v-model="form.publishTime" type="datetime" placeholder="请选择发布时间" style="width: 100%" />
             </el-form-item>
 
+            <!-- 封面上传 -->
             <el-form-item label="封面图片">
                 <el-upload action="#" list-type="picture-card" :auto-upload="false" :on-change="handleImageChange"
                     :limit="1" :file-list="imageFileList">
-                    <el-icon>
-                        <Plus />
-                    </el-icon> <!-- 使用Element Plus的Plus图标 -->
+                    <i class="el-icon-plus"></i>
                 </el-upload>
             </el-form-item>
 
             <!-- 文章内容 -->
-            <!-- :toolbar="['bold', 'italic', 'underline', 'strike', 'code-block', 'image']" -->
             <el-form-item label="文章内容">
                 <div style="width: 100%;">
-                    <!-- <QuillEditor theme="snow" ref="quillEditorRef" :options="options" v-model:content="content"
-                        contentType="html" style="min-height: 200px;" :modules="modules"/> -->
-                    <QuillEditor theme="snow" ref="quillEditorRef" v-model:content="content" contentType="html"
-                        style="min-height: 200px;" :modules="modules"
-                        :toolbar="['bold', 'italic', 'underline', 'strike', 'code-block', 'image']" />
+                    <QuillEditor theme="snow" v-model="form.content" toolbar="minimal"/>
                 </div>
             </el-form-item>
-
 
             <!-- 编辑人员 -->
             <el-form-item label="编辑人员">
@@ -49,13 +43,11 @@
 </template>
 
 <script setup>
-import { ref, onBeforeUnmount, shallowRef, onMounted, toRaw } from 'vue'
+import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { QuillEditor, Quill } from '@vueup/vue-quill'
+import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css' // 引入样式
-import { Plus } from '@element-plus/icons-vue' // 导入Plus图标
-import ImageUploader from 'quill-image-uploader';
-import axios from 'axios' //
+
 
 // 表单数据
 const form = ref({
@@ -66,46 +58,11 @@ const form = ref({
     editor: 'admin', // 可根据登录用户动态设置
 })
 
-const quillEditorRef = ref();
-const content = ref(); //富文本绑定的值
+// 图片文件列表（用于 el-upload）
+const imageFileList = ref([])
 
-const modules = [
-    {
-        name: 'imageUploader',
-        module: ImageUploader,
-        options: {
-            upload: (file) => {
-                return new Promise((resolve, reject) => {
-                    const formData = new FormData()
-                    formData.append('image', file)
-
-                    // 替换为你的实际上传地址
-                    axios.post('http://localhost:5000/upload-image', formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                        .then(res => {
-                            console.log(res)
-                            resolve(res.data.url)
-                        })
-                        .catch(err => {
-                            reject('Upload failed')
-                            console.error('Error:', err)
-                        })
-                })
-            }
-        }
-    }
-]
-
-//将富文本的内容抛出
-const textChange = () => {
-    // emit("update:modelValue", content);
-};
-
+// 提交表单
 const submitForm = () => {
-
     if (!form.value.title.trim()) {
         ElMessage.warning('请填写文章标题')
         return
@@ -121,6 +78,7 @@ const submitForm = () => {
         return
     }
 
+    // 这里可以发送请求到后端保存数据
     console.log('提交的数据:', form.value)
     ElMessage.success('文章已提交')
 }
@@ -145,44 +103,20 @@ const handleImageChange = (file, fileList) => {
 </script>
 
 <style scoped>
-/* 关键修改 - 确保容器正确居中 */
-.article-add-container {
+article-add-container {
     padding: 30px;
-    background-color: #ffffff;
-    max-width: 1200px;
-    /* 使用max-width而不是固定width */
-    width: 100%;
-    /* 添加宽度100% */
+    background-color: #f9fafb;
+    /* max-width: 1200px; */
     margin: 0 auto;
-    box-sizing: border-box;
-}
-
-/* 确保父容器允许内容扩展 */
-:deep(.el-main) {
-    display: flex;
-    justify-content: center;
-}
-
-/* 确保滚动容器不限制宽度 */
-:deep(.main-scrollbar) {
-    width: 100%;
-    max-width: 1400px;
-    /* 略大于内容容器 */
-    padding: 0 20px;
 }
 
 h2 {
     margin-bottom: 20px;
     color: #333;
-    text-align: center;
 }
 
 .el-form-item {
     margin-bottom: 20px;
 }
 
-/* 表单本身居中 */
-.el-form {
-    margin: 0 auto;
-}
 </style>
