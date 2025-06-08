@@ -13,10 +13,10 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/upload-image': {
-        target: 'http://localhost:5000',
+      '/api': {
+        target: 'http://117.72.79.1',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/upload-image/, '/upload-image')
+        rewrite: (path) => path.replace(/^\/api/, '/api') // 保持/api前缀
       }
     }
   }

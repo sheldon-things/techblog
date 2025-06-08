@@ -181,9 +181,8 @@ const handleSelect = (key, keyPath) => {
 }
 
 const carouselImages = ref([
-
-  '/static/carousel/2.png',
-  '/static/carousel/1.png'
+  '/api/images/index/carousel/2.png',
+  '/api/images/index/carousel/1.png'
 ])
 
 const galleryBackgroundStyle = computed(() => ({
@@ -194,17 +193,17 @@ const posts = ref([
   {
     title: 'Vite+Vue的学习路线 #1',
     excerpt: '全面规划学习路径，从基础到高级，逐步深入。',
-    image: '/static/index-article/ij.png',
+    image: '/api/images/index/index-article/ij.png',
   },
   {
     title: 'intellij的maven报错 #2',
     excerpt: '详细解决maven配置问题，确保项目正常运行。',
-    image: '/static/index-article/vuevite.png',
+    image: '/api/images/index/index-article/vuevite.png',
   },
   {
     title: '交通预测+深度学习 #3',
     excerpt: '分享交通预测项目的实战经验，深入了解深度学习技术。',
-    image: '/static/index-article/pdformer.png',
+    image: '/api/images/index/index-article/pdformer.png',
   }
 ])
 
@@ -316,36 +315,36 @@ onMounted(() => {
 
 const galleryImages = ref([
   {
-    url: '/static/gallery/1.jpg',
-    thumbnail: '/static/gallery/thumb1.jpg',
+    url: '/api/images/gallery/1.jpg',
+    thumbnail: '/api/images/gallery/thumb1.jpg',
     title: '城市夜景',
     date: '2023-05-15',
     description: '拍摄于城市中心的夜晚，灯光璀璨'
   },
   {
-    url: '/static/gallery/2.jpg',
-    thumbnail: '/static/gallery/thumb2.jpg',
+    url: '/api/images/gallery/2.jpg',
+    thumbnail: '/api/images/gallery/thumb2.jpg',
     title: '自然风光',
     date: '2023-06-20',
     description: '山间清晨的薄雾与阳光'
   },
   {
-    url: '/static/gallery/3.jpg',
-    thumbnail: '/static/gallery/thumb3.jpg',
+    url: '/api/images/gallery/3.jpg',
+    thumbnail: '/api/images/gallery/thumb3.jpg',
     title: '自然风光',
     date: '2023-06-20',
     description: '山间清晨的薄雾与阳光'
   },
   {
-    url: '/static/gallery/4.jpg',
-    thumbnail: '/static/gallery/thumb4.jpg',
+    url: '/api/images/gallery/4.jpg',
+    thumbnail: '/api/images/gallery/thumb4.jpg',
     title: '自然风光',
     date: '2023-06-20',
     description: '山间清晨的薄雾与阳光'
   },
   {
-    url: '/static/gallery/5.jpg',
-    thumbnail: '/static/gallery/thumb5.jpg',
+    url: '/api/images/gallery/5.jpg',
+    thumbnail: '/api/images/gallery/thumb5.jpg',
     title: '自然风光',
     date: '2023-06-20',
     description: '山间清晨的薄雾与阳光'
@@ -533,7 +532,7 @@ const submitForm = () => {
 .hero-image {
   position: relative;
   height: 100vh;
-  background: url('../../static/hero3.jpg') center/cover no-repeat;
+  background: url('/api/images/index/hero.jpg') center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;

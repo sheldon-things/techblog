@@ -4,7 +4,7 @@
         <NavBar ref="navbar" />
 
         <div class="image-container">
-            <img src="/static/about2.png" alt="">
+            <img :src="img_url" alt="">
         </div>
 
         <!-- 内容容器 -->
@@ -65,6 +65,7 @@
 
 <script setup>
 import NavBar from '../components/NavBar.vue'
+const img_url = '/api/images/about/about.png'
 </script>
 
 <style scoped>
