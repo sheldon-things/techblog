@@ -5,7 +5,12 @@
     <div class="hero-wrapper">
       <NavBar ref="navbar" />
       <!-- 全屏大图背景 -->
-      <div class="hero-image">
+      <div class="hero-image" :style="{
+        backgroundImage: `url(${IMAGE_BASE_URL}/index/hero.jpg)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }">
         <div class="hero-text">
           <h1 class="hero-title">呼吸，破坏，重复</h1>
           <button class="next-button" @click="scrollToContent">下一页</button>
@@ -163,6 +168,8 @@
 </template>
 
 <script setup>
+import { API_BASE_URL, IMAGE_BASE_URL } from '@/config'
+
 import { ElMessage } from 'element-plus'
 import NavBar from '../components/NavBar.vue'
 
@@ -181,8 +188,8 @@ const handleSelect = (key, keyPath) => {
 }
 
 const carouselImages = ref([
-  '/api/images/index/carousel/2.png',
-  '/api/images/index/carousel/1.png'
+  `${IMAGE_BASE_URL}/index/carousel/2.png`,
+  `${IMAGE_BASE_URL}/index/carousel/1.png`
 ])
 
 const galleryBackgroundStyle = computed(() => ({
@@ -193,17 +200,17 @@ const posts = ref([
   {
     title: 'Vite+Vue的学习路线 #1',
     excerpt: '全面规划学习路径，从基础到高级，逐步深入。',
-    image: '/api/images/index/index-article/ij.png',
+    image: `${IMAGE_BASE_URL}/index/index-article/ij.png`,
   },
   {
     title: 'intellij的maven报错 #2',
     excerpt: '详细解决maven配置问题，确保项目正常运行。',
-    image: '/api/images/index/index-article/vuevite.png',
+    image: `${IMAGE_BASE_URL}/index/index-article/vuevite.png`,
   },
   {
     title: '交通预测+深度学习 #3',
     excerpt: '分享交通预测项目的实战经验，深入了解深度学习技术。',
-    image: '/api/images/index/index-article/pdformer.png',
+    image: `${IMAGE_BASE_URL}/index/index-article/pdformer.png`,
   }
 ])
 
@@ -315,36 +322,36 @@ onMounted(() => {
 
 const galleryImages = ref([
   {
-    url: '/api/images/gallery/1.jpg',
-    thumbnail: '/api/images/gallery/thumb1.jpg',
+    url: `${IMAGE_BASE_URL}/gallery/1.jpg`,
+    thumbnail: `${IMAGE_BASE_URL}/gallery/thumb1.jpg`,
     title: '城市夜景',
     date: '2023-05-15',
     description: '拍摄于城市中心的夜晚，灯光璀璨'
   },
   {
-    url: '/api/images/gallery/2.jpg',
-    thumbnail: '/api/images/gallery/thumb2.jpg',
+    url: `${IMAGE_BASE_URL}/gallery/2.jpg`,
+    thumbnail: `${IMAGE_BASE_URL}/gallery/thumb2.jpg`,
     title: '自然风光',
     date: '2023-06-20',
     description: '山间清晨的薄雾与阳光'
   },
   {
-    url: '/api/images/gallery/3.jpg',
-    thumbnail: '/api/images/gallery/thumb3.jpg',
+    url: `${IMAGE_BASE_URL}/gallery/3.jpg`,
+    thumbnail: `${IMAGE_BASE_URL}/gallery/thumb3.jpg`,
     title: '自然风光',
     date: '2023-06-20',
     description: '山间清晨的薄雾与阳光'
   },
   {
-    url: '/api/images/gallery/4.jpg',
-    thumbnail: '/api/images/gallery/thumb4.jpg',
+    url: `${IMAGE_BASE_URL}/gallery/4.jpg`,
+    thumbnail: `${IMAGE_BASE_URL}/gallery/thumb4.jpg`,
     title: '自然风光',
     date: '2023-06-20',
     description: '山间清晨的薄雾与阳光'
   },
   {
-    url: '/api/images/gallery/5.jpg',
-    thumbnail: '/api/images/gallery/thumb5.jpg',
+    url: `${IMAGE_BASE_URL}/gallery/5.jpg`,
+    thumbnail: `${IMAGE_BASE_URL}/gallery/thumb5.jpg`,
     title: '自然风光',
     date: '2023-06-20',
     description: '山间清晨的薄雾与阳光'
@@ -532,7 +539,6 @@ const submitForm = () => {
 .hero-image {
   position: relative;
   height: 100vh;
-  background: url('/api/images/index/hero.jpg') center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;

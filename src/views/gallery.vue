@@ -23,29 +23,29 @@
 <script setup>
 import NavBar from '../components/NavBar.vue'
 import { ref, onMounted } from 'vue'
-import { config } from '@/config'
+import { API_BASE_URL, IMAGE_BASE_URL } from '@/config'
 
 const navbar = ref(null)
 
 const images = [
   {
-    src: `${config.galleryBase}/1.jpg`,
+    src: `${IMAGE_BASE_URL}/gallery/1.jpg`,
     alt: '风景 1'
   },
   {
-    src: `${config.galleryBase}/2.jpg`,
+    src: `${IMAGE_BASE_URL}/gallery/2.jpg`,
     alt: '风景 2'
   },
   {
-    src: `${config.galleryBase}/3.jpg`,
+    src: `${IMAGE_BASE_URL}/gallery/3.jpg`,
     alt: '风景 3'
   },
   {
-    src: `${config.galleryBase}/4.jpg`,
+    src: `${IMAGE_BASE_URL}/gallery/4.jpg`,
     alt: '风景 4'
   },
   {
-    src: `${config.galleryBase}/5.jpg`,
+    src: `${IMAGE_BASE_URL}/gallery/5.jpg`,
     alt: '风景 5'
   }
 ];

@@ -130,7 +130,7 @@
                 <div class="right-container">
                     <div class="login-form">
                         <h2>管理员登录</h2>
-                        <el-form ref="form" :model="loginForm" :rules="rules">
+                        <el-form ref="form" :model="loginForm" :rules="rules" size="large">
                             <el-form-item label="账号" prop="username">
                                 <el-input v-model="loginForm.username" />
                             </el-form-item>
@@ -242,8 +242,13 @@ const handleLogin = () => {
     if (username === 'admin' && password === '123456') {
         localStorage.setItem('adminToken', 'authenticated')
         isLoggedIn.value = true
+        ElMessage.success('登录成功') // 添加成功提示
     } else {
-        alert('用户名或密码错误')
+        ElMessage.error({
+            message: '用户名或密码错误',
+            offset: 80,  // 让提示出现在稍微靠下的位置
+            duration: 3000  // 3秒后自动消失
+        })
     }
 }
 
@@ -297,7 +302,7 @@ const handleLogout = () => {
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
+    width: 400px !important;
     height: 23rem;
     display: flex;
     flex-direction: column;
@@ -379,5 +384,25 @@ const handleLogout = () => {
 .main-scrollbar {
     padding-top: 10px;
     padding-left: 10px;
+}
+
+/* 修复表单宽度变化问题 */
+.login-form {
+    width: 400px !important;
+    min-width: 400px !important;
+}
+
+.login-form :deep(.el-form) {
+    width: 100% !important;
+}
+
+.login-form :deep(.el-input) {
+    width: 100% !important;
+}
+
+.login-form :deep(.el-input__wrapper) {
+    width: 100% !important;
+    transition: none !important;
+    /* 禁用过渡动画 */
 }
 </style>

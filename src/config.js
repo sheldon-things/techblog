@@ -1,5 +1,3 @@
-export const config = {
-    apiBase: 'http://117.72.79.1/api',
-    staticBase: 'http://117.72.79.1/api/images',
-    galleryBase: 'http://117.72.79.1/api/images/gallery',
-}
+// src/config.js
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+export const IMAGE_BASE_URL = `${API_BASE_URL}/api/images`

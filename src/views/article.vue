@@ -62,6 +62,8 @@
 </template>
 
 <script setup>
+import { API_BASE_URL, IMAGE_BASE_URL } from '@/config'
+
 import NavBar from '../components/NavBar.vue'
 import { ref, onMounted } from 'vue'
 const drawerVisible = ref(false)
@@ -71,32 +73,32 @@ const posts = ref([
     {
         title: 'Vite+Vue的学习路线 #1',
         excerpt: '全面规划学习路径，从基础到高级，逐步深入。',
-        thumbnail: '/static/index-article/ij.png',
+        thumbnail: `${IMAGE_BASE_URL}/index/index-article/ij.png`,
     },
     {
         title: 'intellij的maven报错 #2',
         excerpt: '详细解决maven配置问题，确保项目正常运行。',
-        thumbnail: '/static/index-article/vuevite.png',
+        thumbnail: `${IMAGE_BASE_URL}/index/index-article/pdformer.png`,
     },
     {
         title: '交通预测+深度学习 #3',
         excerpt: '分享交通预测项目的实战经验，深入了解深度学习技术。',
-        thumbnail: '/static/index-article/pdformer.png',
+        thumbnail: `${IMAGE_BASE_URL}/index/index-article/vuevite.png`,
     }, 
     {
         title: 'Vite+Vue的学习路线 #1',
         excerpt: '全面规划学习路径，从基础到高级，逐步深入。',
-        thumbnail: '/static/index-article/ij.png',
+        thumbnail: `${IMAGE_BASE_URL}/index/index-article/ij.png`,
     },
     {
         title: 'intellij的maven报错 #2',
         excerpt: '详细解决maven配置问题，确保项目正常运行。',
-        thumbnail: '/static/index-article/vuevite.png',
+        thumbnail: `${IMAGE_BASE_URL}/index/index-article/pdformer.png`,
     },
     {
         title: '交通预测+深度学习 #3',
         excerpt: '分享交通预测项目的实战经验，深入了解深度学习技术。',
-        thumbnail: '/static/index-article/pdformer.png',
+        thumbnail: `${IMAGE_BASE_URL}/index/index-article/vuevite.png`,
     }
 ])
 
