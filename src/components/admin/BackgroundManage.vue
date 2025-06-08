@@ -77,7 +77,7 @@
                 </div>
                 <template #tip>
                     <div class="el-upload__tip">
-                        建议上传尺寸为1920×1080的JPG/PNG文件，大小不超过5MB
+                        建议上传尺寸为1920×1080的webp/webp文件，大小不超过5MB
                     </div>
                 </template>
             </el-upload>
@@ -100,16 +100,16 @@ import {
 } from '@element-plus/icons-vue'
 
 // 当前背景图 (示例数据)
-const currentBackground = ref('/static/hero.jpg')
+const currentBackground = ref('/static/hero.webp')
 const currentBackgroundInfo = ref({
     uploadTime: '2023-10-15 14:30'
 })
 
 // 历史背景图 (示例数据)
 const historyBackgrounds = ref([
-    { url: '/static/bg1.jpg', uploadTime: '2023-09-10 10:20' },
-    { url: '/static/bg2.jpg', uploadTime: '2023-08-05 15:45' },
-    { url: '/static/bg3.jpg', uploadTime: '2023-07-22 09:30' }
+    { url: '/static/bg1.webp', uploadTime: '2023-09-10 10:20' },
+    { url: '/static/bg2.webp', uploadTime: '2023-08-05 15:45' },
+    { url: '/static/bg3.webp', uploadTime: '2023-07-22 09:30' }
 ])
 
 // 上传相关

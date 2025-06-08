@@ -25,11 +25,6 @@
             <!-- :toolbar="['bold', 'italic', 'underline', 'strike', 'code-block', 'image']" -->
             <el-form-item label="文章内容">
                 <div style="width: 100%;">
-                    <!-- <QuillEditor theme="snow" ref="quillEditorRef" :options="options" v-model:content="content"
-                        contentType="html" style="min-height: 200px;" :modules="modules"/> -->
-                    <!-- <QuillEditor theme="snow" ref="quillEditorRef" v-model:content="content" contentType="html"
-                        style="min-height: 200px;" :modules="modules"
-                        :toolbar="['bold', 'italic', 'underline', 'strike', 'code-block', 'image']" /> -->
                     <div id="vditor" style="min-height: 50vh;"></div>
                     <el-button type="primary" @click="saveContent" class="save-btn">保存文章</el-button>
                 </div>

@@ -285,7 +285,7 @@ const handleLogout = () => {
 .left-container {
     width: 50%;
     height: 100vh;
-    background: url('/static/hero.jpg') no-repeat;
+    background: url('/static/hero.webp') no-repeat;
     background-position: center;
     background-size: cover;
 }

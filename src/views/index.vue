@@ -6,7 +6,7 @@
       <NavBar ref="navbar" />
       <!-- 全屏大图背景 -->
       <div class="hero-image" :style="{
-        backgroundImage: `url(${IMAGE_BASE_URL}/index/hero.jpg)`,
+        backgroundImage: `url(${IMAGE_BASE_URL}/index/hero.webp)`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
@@ -188,8 +188,8 @@ const handleSelect = (key, keyPath) => {
 }
 
 const carouselImages = ref([
-  `${IMAGE_BASE_URL}/index/carousel/2.png`,
-  `${IMAGE_BASE_URL}/index/carousel/1.png`
+  `${IMAGE_BASE_URL}/index/carousel/2.webp`,
+  `${IMAGE_BASE_URL}/index/carousel/1.webp`
 ])
 
 const galleryBackgroundStyle = computed(() => ({
@@ -200,17 +200,17 @@ const posts = ref([
   {
     title: 'Vite+Vue的学习路线 #1',
     excerpt: '全面规划学习路径，从基础到高级，逐步深入。',
-    image: `${IMAGE_BASE_URL}/index/index-article/ij.png`,
+    image: `${IMAGE_BASE_URL}/index/index-article/ij.webp`,
   },
   {
     title: 'intellij的maven报错 #2',
     excerpt: '详细解决maven配置问题，确保项目正常运行。',
-    image: `${IMAGE_BASE_URL}/index/index-article/vuevite.png`,
+    image: `${IMAGE_BASE_URL}/index/index-article/vuevite.webp`,
   },
   {
     title: '交通预测+深度学习 #3',
     excerpt: '分享交通预测项目的实战经验，深入了解深度学习技术。',
-    image: `${IMAGE_BASE_URL}/index/index-article/pdformer.png`,
+    image: `${IMAGE_BASE_URL}/index/index-article/pdformer.webp`,
   }
 ])
 
@@ -322,36 +322,36 @@ onMounted(() => {
 
 const galleryImages = ref([
   {
-    url: `${IMAGE_BASE_URL}/gallery/1.jpg`,
-    thumbnail: `${IMAGE_BASE_URL}/gallery/thumb1.jpg`,
+    url: `${IMAGE_BASE_URL}/gallery/1.webp`,
+    thumbnail: `${IMAGE_BASE_URL}/gallery/thumb1.webp`,
     title: '城市夜景',
     date: '2023-05-15',
     description: '拍摄于城市中心的夜晚，灯光璀璨'
   },
   {
-    url: `${IMAGE_BASE_URL}/gallery/2.jpg`,
-    thumbnail: `${IMAGE_BASE_URL}/gallery/thumb2.jpg`,
+    url: `${IMAGE_BASE_URL}/gallery/2.webp`,
+    thumbnail: `${IMAGE_BASE_URL}/gallery/thumb2.webp`,
     title: '自然风光',
     date: '2023-06-20',
     description: '山间清晨的薄雾与阳光'
   },
   {
-    url: `${IMAGE_BASE_URL}/gallery/3.jpg`,
-    thumbnail: `${IMAGE_BASE_URL}/gallery/thumb3.jpg`,
+    url: `${IMAGE_BASE_URL}/gallery/3.webp`,
+    thumbnail: `${IMAGE_BASE_URL}/gallery/thumb3.webp`,
     title: '自然风光',
     date: '2023-06-20',
     description: '山间清晨的薄雾与阳光'
   },
   {
-    url: `${IMAGE_BASE_URL}/gallery/4.jpg`,
-    thumbnail: `${IMAGE_BASE_URL}/gallery/thumb4.jpg`,
+    url: `${IMAGE_BASE_URL}/gallery/4.webp`,
+    thumbnail: `${IMAGE_BASE_URL}/gallery/thumb4.webp`,
     title: '自然风光',
     date: '2023-06-20',
     description: '山间清晨的薄雾与阳光'
   },
   {
-    url: `${IMAGE_BASE_URL}/gallery/5.jpg`,
-    thumbnail: `${IMAGE_BASE_URL}/gallery/thumb5.jpg`,
+    url: `${IMAGE_BASE_URL}/gallery/5.webp`,
+    thumbnail: `${IMAGE_BASE_URL}/gallery/thumb5.webp`,
     title: '自然风光',
     date: '2023-06-20',
     description: '山间清晨的薄雾与阳光'

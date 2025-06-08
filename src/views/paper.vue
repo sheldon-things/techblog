@@ -60,7 +60,7 @@ import { ElMessageBox } from 'element-plus'
 // 示例数据：论文列表
 const papers = [
     {
-        thumbnail: `${IMAGE_BASE_URL}/index/index-article/ij.png`,
+        thumbnail: `${IMAGE_BASE_URL}/index/index-article/ij.webp`,
         titleZh: '基于深度学习的图像识别方法研究',
         titleEn: 'Research on Image Recognition Based on Deep Learning',
         type: '期刊论文',
@@ -70,7 +70,7 @@ const papers = [
         authors: ['张三', '李四', '王五']
     },
     {
-        thumbnail: `${IMAGE_BASE_URL}/index/index-article/pdformer.png`,
+        thumbnail: `${IMAGE_BASE_URL}/index/index-article/pdformer.webp`,
         titleZh: '人工智能在医疗诊断中的应用综述',
         titleEn: 'A Survey of AI Applications in Medical Diagnosis',
         type: '综述论文',
@@ -80,7 +80,7 @@ const papers = [
         authors: ['孙八', '周九']
     },
     {
-        thumbnail: `${IMAGE_BASE_URL}/index/index-article/vuevite.png`,
+        thumbnail: `${IMAGE_BASE_URL}/index/index-article/vuevite.webp`,
         titleZh: '自然语言处理中的迁移学习应用',
         titleEn: 'Transfer Learning in Natural Language Processing',
         type: '会议论文',

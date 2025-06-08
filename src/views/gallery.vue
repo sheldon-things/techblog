@@ -29,23 +29,23 @@ const navbar = ref(null)
 
 const images = [
   {
-    src: `${IMAGE_BASE_URL}/gallery/1.jpg`,
+    src: `${IMAGE_BASE_URL}/gallery/1.webp`,
     alt: '风景 1'
   },
   {
-    src: `${IMAGE_BASE_URL}/gallery/2.jpg`,
+    src: `${IMAGE_BASE_URL}/gallery/2.webp`,
     alt: '风景 2'
   },
   {
-    src: `${IMAGE_BASE_URL}/gallery/3.jpg`,
+    src: `${IMAGE_BASE_URL}/gallery/3.webp`,
     alt: '风景 3'
   },
   {
-    src: `${IMAGE_BASE_URL}/gallery/4.jpg`,
+    src: `${IMAGE_BASE_URL}/gallery/4.webp`,
     alt: '风景 4'
   },
   {
-    src: `${IMAGE_BASE_URL}/gallery/5.jpg`,
+    src: `${IMAGE_BASE_URL}/gallery/5.webp`,
     alt: '风景 5'
   }
 ];

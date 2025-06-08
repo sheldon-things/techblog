@@ -67,7 +67,7 @@
 import { API_BASE_URL, IMAGE_BASE_URL } from '@/config'
 
 import NavBar from '../components/NavBar.vue'
-const img_url = `${IMAGE_BASE_URL}/about/about.png`
+const img_url = `${IMAGE_BASE_URL}/about/about.webp`
 </script>
 
 <style scoped>
