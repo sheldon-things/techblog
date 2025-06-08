@@ -1,7 +1,7 @@
 <template>
     <div class="article-add-container">
         <h2>添加新文章</h2>
-        <el-form :model="form" label-width="120px" style="max-width: 800px">
+        <el-form :model="form" label-width="120px">
             <!-- 标题 -->
             <el-form-item label="文章标题">
                 <el-input v-model="form.title" placeholder="请输入文章标题" />
@@ -27,9 +27,11 @@
                 <div style="width: 100%;">
                     <!-- <QuillEditor theme="snow" ref="quillEditorRef" :options="options" v-model:content="content"
                         contentType="html" style="min-height: 200px;" :modules="modules"/> -->
-                    <QuillEditor theme="snow" ref="quillEditorRef" v-model:content="content" contentType="html"
+                    <!-- <QuillEditor theme="snow" ref="quillEditorRef" v-model:content="content" contentType="html"
                         style="min-height: 200px;" :modules="modules"
-                        :toolbar="['bold', 'italic', 'underline', 'strike', 'code-block', 'image']" />
+                        :toolbar="['bold', 'italic', 'underline', 'strike', 'code-block', 'image']" /> -->
+                    <div id="vditor" style="min-height: 50vh;"></div>
+                    <el-button type="primary" @click="saveContent" class="save-btn">保存文章</el-button>
                 </div>
             </el-form-item>
 
@@ -50,12 +52,18 @@
 
 <script setup>
 import { ref, onBeforeUnmount, shallowRef, onMounted, toRaw } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElLoading } from 'element-plus'
 import { QuillEditor, Quill } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css' // 引入样式
 import { Plus } from '@element-plus/icons-vue' // 导入Plus图标
 import ImageUploader from 'quill-image-uploader';
 import axios from 'axios' //
+
+import Vditor from 'vditor'
+import 'vditor/dist/index.css'
+
+const editorContent = ref('')
+const vditor = ref(null)
 
 // 表单数据
 const form = ref({
@@ -69,40 +77,97 @@ const form = ref({
 const quillEditorRef = ref();
 const content = ref(); //富文本绑定的值
 
-const modules = [
-    {
-        name: 'imageUploader',
-        module: ImageUploader,
-        options: {
-            upload: (file) => {
-                return new Promise((resolve, reject) => {
-                    const formData = new FormData()
-                    formData.append('image', file)
+// 保存内容方法
+const saveContent = async () => {
+    const loadingInstance = ElLoading.service({
+        lock: true,
+        text: '正在保存...',
+        background: 'rgba(0, 0, 0, 0.7)'
+    })
 
-                    // 替换为你的实际上传地址
-                    axios.post('http://localhost:5000/upload-image', formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                        .then(res => {
-                            console.log(res)
-                            resolve(res.data.url)
-                        })
-                        .catch(err => {
-                            reject('Upload failed')
-                            console.error('Error:', err)
-                        })
-                })
+    try {
+        const content = vditor.value.getValue()
+
+        // 模拟API请求
+        await new Promise(resolve => setTimeout(resolve, 1000))
+
+        // 实际使用时替换为:
+        // const response = await fetch('/api/save', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //     'Authorization': `Bearer ${yourToken}`
+        //   },
+        //   body: JSON.stringify({ content })
+        // });
+        // if (!response.ok) throw new Error('保存失败');
+
+        ElMessage.success('内容保存成功')
+        console.log('保存的内容:', content)
+    } catch (error) {
+        ElMessage.error(`保存失败: ${error.message}`)
+        console.error('保存失败:', error)
+    } finally {
+        loadingInstance.close()
+    }
+}
+
+onMounted(() => {
+    vditor.value = new Vditor('vditor', {
+        mode: 'sv', // 编辑器模式
+        debug: true, // 调试模式
+        cache: { enable: false }, // 关闭缓存
+        input: (text) => {
+            editorContent.value = text // 内容同步
+        },
+        after: () => {
+            vditor.value.setValue(editorContent.value) // 初始化内容
+        },
+        toolbar: [
+            'bold',
+            'italic',
+            '|',
+            'headings',
+            'line',
+            'quote',
+            'list',
+            '|',
+            'upload',
+            'link'
+        ],
+        toolbarConfig: {
+            pin: true,  // 固定工具栏（滚动时保持可见）
+            hide: false // 不隐藏工具栏
+        },
+        upload: {
+            url: '/api/upload',
+            fieldName: 'image',
+            // setHeaders() {
+            //     return {
+            //         Authorization: `Bearer ${yourToken}`
+            //     }
+            // },
+            resize: {  // ← 新增 resize 配置
+                enable: true,
+                position: 'bottom',
+                after: (height) => {
+                    console.log('调整后高度:', height)
+                }
+            },
+            success(_, msg) {
+                const res = JSON.parse(msg)
+                vditor.value.insertValue(`![${res.data.name}](${res.data.url})`)
             }
         }
-    }
-]
 
-//将富文本的内容抛出
-const textChange = () => {
-    // emit("update:modelValue", content);
-};
+    })
+})
+
+onBeforeUnmount(() => {
+    if (vditor.value) {
+        vditor.value.destroy()
+    }
+})
 
 const submitForm = () => {
 
@@ -145,11 +210,15 @@ const handleImageChange = (file, fileList) => {
 </script>
 
 <style scoped>
+.save-btn {
+    margin-top: 20px;
+}
+
 /* 关键修改 - 确保容器正确居中 */
 .article-add-container {
     padding: 30px;
     background-color: #ffffff;
-    max-width: 1200px;
+    /* max-width: 1200px; */
     /* 使用max-width而不是固定width */
     width: 100%;
     /* 添加宽度100% */
