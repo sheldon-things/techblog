@@ -89,24 +89,5 @@ pnpm run build
 ## 💅 样式与主题
 
 - 使用 `Sass (Embedded)` 编写样式，支持变量控制和模块化。
-- 所有通用 CSS 存放在 [src/assets/main.css](file:///Users/a1-6/Downloads/techblog/src/assets/main.css)。
-- 主题颜色和动画效果通过 SCSS 变量统一管理。
 
-## 🎨 第三方库
-
-- **Element Plus**：UI 组件库，提供按钮、表单、对话框等常用组件。
-- **Swiper & vue-awesome-swiper**：实现轮播图和图集滑动效果。
-- **TSParticles**：背景粒子动画效果。
-- **ParticlesJS**：可选的轻量级粒子特效。
-
-## 📜 开源协议
-
-本项目采用 MIT 协议，详见 [LICENSE](LICENSE) 文件。
-
-## 👥 贡献指南
-
-欢迎提交 PR 或 Issue！请遵循代码风格规范并保持良好的 commit message。
-
----
-
-如需添加更多细节，比如部署流程、CI/CD、SEO 设置等，也可以继续扩展此文档。
+--- 
