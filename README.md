@@ -51,4 +51,4 @@ TechBlog is a sophisticated personal blogging platform designed for technical co
 ## 📂 Project Structure
 
 ## 📜 Open-source Protocal
-- **MIT Protocal，see [LICENSE](LICENSE)。
+- MIT Protocal，see [LICENSE](LICENSE)。
