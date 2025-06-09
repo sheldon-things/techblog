@@ -18,11 +18,31 @@
       </div>
     </div>
 
+    <!-- 文章概览区域 - 移动端专用 -->
+    <div v-if="isMobile" class="mobile-post-list">
+      <div class="subtitle">热门文章</div>
+      <ul class="post-list">
+        <li v-for="(post, index) in posts" :key="index" class="post-item">
+          <router-link :to="'/article/' + post.id" class="post-link">
+            <div class="post-meta">
+              <!-- <span class="post-index">#{{ index + 1 }}</span> -->
+            </div>
+            <!-- <h3 class="post-title">{{ post.title }}</h3> -->
+            <p class="post-excerpt">{{ post.excerpt }}</p>
+            <div class="post-footer">
+              <span class="read-more">阅读全文</span>
+              <span class="post-date">2023-10-15</span>
+              <span class="comment-count">12评论</span>
+            </div>
+          </router-link>
+        </li>
+      </ul>
+    </div>
+
     <!-- 文章概览区域 -->
-    <div id="content-section" class="content-section">
+    <div v-else id="content-section" class="content-section">
       <!-- 博客卡片 -->
       <div class="subtitle">热门文章</div>
-
       <!-- 博客卡片 -->
       <div class="post-card" v-for="(post, index) in posts" :key="index">
         <div class="post-image" :style="{ backgroundImage: 'url(' + post.image + ')' }"></div>
@@ -54,8 +74,9 @@
 
     </div>
 
+
     <!-- 随记 -->
-    <div class="gallery" :style="galleryBackgroundStyle">
+    <div class="gallery" :style="galleryBackgroundStyle" v-if="!isMobile">
       <div class="gallery-container">
         <!-- 左侧图片展示区 -->
         <div class="gallery-main">
@@ -91,8 +112,25 @@
       </div>
     </div>
 
+    <!-- 移动端画廊 - 使用 Element Plus 轮播组件 -->
+    <div class="mobile-gallery" v-if="isMobile">
+      <div class="section-title">随记</div>
+      <el-carousel :interval="4000" height="300px" indicator-position="inside" arrow="always">
+        <el-carousel-item v-for="(img, index) in galleryImages" :key="index">
+          <div class="carousel-item" @click="showFullscreen(img.url)">
+            <img :src="img.url" :alt="img.title" class="gallery-image">
+            <!-- <div class="image-info">
+              <h3>{{ img.title }}</h3>
+              <p>{{ img.date }}</p>
+            </div> -->
+          </div>
+        </el-carousel-item>
+      </el-carousel>
+    </div>
+
+
     <!-- 留言墙 卡片形式 -->
-    <div class="comments-section">
+    <div v-if="!isMobile" class="comments-section">
       <h2 class="section-title">留言墙</h2>
       <div class="comment-cards">
         <div v-for="(comment, index) in comments" :key="index" class="comment-card"
@@ -109,8 +147,32 @@
       </div>
     </div>
 
+    <!-- 移动端展示 -->
+    <!-- 修改移动端留言墙部分 -->
+    <div v-else class="comment-cards-mobile">
+      <!-- 使用slice截取前3条评论 -->
+      <div class="comment-subtitle">热门文章</div>
+      <div v-for="(comment, index) in comments.slice(0, 3)" :key="index" class="comment-card"
+        :style="{ backgroundColor: getRandomColor() }">
+        <div class="comment-content">{{ comment.content }}</div>
+      </div>
+
+      <!-- 添加查看更多按钮 -->
+      <el-button class="view-more-btn" @click="showAllComments = !showAllComments">
+        {{ showAllComments ? '收起' : '查看更多' }}
+      </el-button>
+
+      <!-- 当点击查看更多时显示全部 -->
+      <div v-if="showAllComments">
+        <div v-for="(comment, index) in comments.slice(3)" :key="index + 3" class="comment-card"
+          :style="{ backgroundColor: getRandomColor() }">
+          <div class="comment-content">{{ comment.content }}</div>
+        </div>
+      </div>
+    </div>
+
     <!-- 联系我 -->
-    <div class="contact-section">
+    <div v-if="!isMobile" class="contact-section">
       <div class="contact-container">
         <h2 class="section-title">联系我</h2>
         <div class="contact-content">
@@ -155,13 +217,45 @@
       </div>
     </div>
 
+    <div v-else class="contact-section-mobile">
+      <div class="contact-container-mobile">
+        <h2 class="section-title-mobile">联系我</h2>
+
+        <!-- 联系方式卡片 -->
+        <!-- <div class="contact-cards-mobile">
+          <div class="contact-card-mobile" v-for="(item, index) in contactItems" :key="index">
+            <i :class="item.icon" class="contact-icon-mobile"></i>
+            <div class="contact-info-mobile">
+              <h4>{{ item.title }}</h4>
+              <p>{{ item.content }}</p>
+            </div>
+          </div>
+        </div> -->
+
+        <!-- 表单区域 -->
+        <form class="contact-form-mobile" @submit.prevent="submitForm">
+          <div class="form-group-mobile">
+            <el-input v-model="username" placeholder="姓名" />
+          </div>
+          <div class="form-group-mobile">
+            <el-input v-model="email" placeholder="邮箱" />
+          </div>
+          <div class="form-group-mobile">
+            <el-input v-model="textarea" placeholder="留言内容" type="textarea" maxlength="100" show-word-limit :rows="3" />
+          </div>
+          <!-- <button type="submit" class="submit-btn-mobile">发送消息</button> -->
+          <el-button type="success" round class="submit-btn-mobile">发送</el-button>
+        </form>
+      </div>
+    </div>
+
     <!-- 页脚 -->
     <footer class="footer">
-      <p>© 2025 CodeCraft. All rights reserved.</p>
+      <p>© 2025 TechBlog. All rights reserved.</p>
       <div class="social-links">
-        <a href="#">GitHub</a>
-        <a href="#">Twitter</a>
-        <a href="#">LinkedIn</a>
+        <a href="#">GitHub (To Be Releasesd)</a>
+        <!-- <a href="#">Twitter</a>
+        <a href="#">LinkedIn</a> -->
       </div>
     </footer>
   </div>
@@ -170,9 +264,9 @@
 <script setup>
 import { API_BASE_URL, IMAGE_BASE_URL } from '@/config'
 
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElCarousel, ElCarouselItem } from 'element-plus'
 import NavBar from '../components/NavBar.vue'
-
+import { useMediaQuery } from '@vueuse/core'
 import { ref, onMounted, computed } from 'vue'
 const navbar = ref(null)
 const isTransparent = ref(true) // 初始状态为透明
@@ -182,6 +276,14 @@ const activeIndex = ref('1')
 const textarea = ref('')
 const username = ref('')
 const email = ref('')
+const isMobile = useMediaQuery('(max-width: 768px)')
+// 在script setup中添加状态控制
+const showAllComments = ref(false);
+// const checkMobile = () => {
+//   isMobile.value = window.innerWidth <= 768
+// }
+
+
 
 const handleSelect = (key, keyPath) => {
   console.log(key, keyPath)
@@ -198,17 +300,20 @@ const galleryBackgroundStyle = computed(() => ({
 
 const posts = ref([
   {
-    title: 'Vite+Vue的学习路线 #1',
+    id: '1',
+    title: 'Vite+Vue的学习路线',
     excerpt: '全面规划学习路径，从基础到高级，逐步深入。',
     image: `${IMAGE_BASE_URL}/index/index-article/ij.webp`,
   },
   {
-    title: 'intellij的maven报错 #2',
+    id: '2',
+    title: 'intellij的maven报错',
     excerpt: '详细解决maven配置问题，确保项目正常运行。',
     image: `${IMAGE_BASE_URL}/index/index-article/vuevite.webp`,
   },
   {
-    title: '交通预测+深度学习 #3',
+    id: '3',
+    title: '交通预测+深度学习',
     excerpt: '分享交通预测项目的实战经验，深入了解深度学习技术。',
     image: `${IMAGE_BASE_URL}/index/index-article/pdformer.webp`,
   }
@@ -272,8 +377,27 @@ const getRandomColor = () => {
 
 
 const scrollToContent = () => {
-  const element = document.getElementById('content-section')
-  element.scrollIntoView({ behavior: 'smooth' })
+  const navbar = document.querySelector('.navbar') // 根据您的NavBar实际class选择
+  const navbarHeight = navbar ? navbar.offsetHeight : 60 // 动态获取或使用默认值
+
+  if (isMobile.value) {
+    const target = document.querySelector('.mobile-post-list')
+    if (target) {
+      const targetPosition = target.getBoundingClientRect().top + window.pageYOffset
+      window.scrollTo({
+        top: targetPosition - navbarHeight,
+        behavior: 'smooth'
+      })
+    }
+  } else {
+    const target = document.getElementById('content-section')
+    if (target) {
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+  }
 }
 const handleScroll = () => {
   const scrollTop = window.scrollY || document.documentElement.scrollTop
@@ -310,6 +434,8 @@ const handleScroll = () => {
 }
 
 onMounted(() => {
+  // checkMobile()
+  // window.addEventListener('resize', checkMobile)
   window.addEventListener('scroll', handleScroll)
   // 模拟异步获取访问人数
   setTimeout(() => {
@@ -447,6 +573,7 @@ const submitForm = () => {
 .subtitle {
   font-size: 1rem;
   color: #cccccc;
+  justify-self: left;
 }
 
 .nav-links {
@@ -791,12 +918,6 @@ const submitForm = () => {
 </style>
 
 <style scoped>
-.content-section {
-  padding: 4rem 1rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
 .next-button {
   position: absolute;
   left: 50%;
@@ -832,6 +953,12 @@ const submitForm = () => {
   /* 可选：防止导航栏遮挡内容 */
 }
 
+@media (max-width: 768px) {
+  .content-section {
+    grid-template-columns: 1fr;
+  }
+}
+
 .subtitle {
   font-size: 1.8rem;
   color: transparent;
@@ -857,6 +984,22 @@ const submitForm = () => {
   /* 可适当降低模糊值 */
   height: 25rem;
 }
+
+
+@media (max-width: 768px) {
+  .post-card {
+    height: auto;
+  }
+
+  .post-image {
+    height: 180px;
+  }
+
+  .post-info {
+    padding: 1rem;
+  }
+}
+
 
 .post-card:hover {
   transform: translateY(-5px);
@@ -1419,5 +1562,359 @@ const submitForm = () => {
   .section-title {
     font-size: 1.6rem;
   }
+}
+
+@media (max-width: 768px) {
+
+  .contact-form .form-group input,
+  .contact-form .form-group textarea {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .submit-btn {
+    font-size: 1rem;
+  }
+}
+
+.fullscreen-modal img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+/* 移动端文章列表样式 */
+.mobile-post-list {
+  padding: 0 1rem;
+  margin-top: 0;
+}
+
+.mobile-post-list .subtitle {
+  /* font-size: 1.8rem;
+  font-weight: 500; */
+  /* color: #333; */
+  /* margin-bottom: 1rem; */
+  /* padding-left: 0.5rem; */
+  /* border-left: 4px solid #00d4ff; */
+  /* margin: 0 auto; */
+  margin: 0 auto;
+  text-align: left;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.post-item {
+  border-bottom: 1px solid #eee;
+  padding: 1rem 0;
+}
+
+.post-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.post-title {
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0.5rem 0;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.mobile-post-list .post-excerpt {
+  font-size: 1rem;
+  color: #383838;
+  margin: 0.5rem 0;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.post-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.8rem;
+  font-size: 0.8rem;
+}
+
+.read-more {
+  color: #f59595;
+}
+
+.comment-count {
+  color: #6c6a6a;
+}
+
+/* 动画效果 */
+.post-item {
+  transition: all 0.3s ease;
+}
+
+.post-item:active {
+  background-color: #f5f5f5;
+}
+
+/* 响应式调整 */
+@media (min-width: 769px) {
+  .mobile-post-list {
+    display: none;
+  }
+}
+
+/* 移动端画廊样式 */
+.mobile-gallery {
+  padding: 1rem;
+  margin: 2rem 0;
+  /* background: rgba(0, 0, 0, 0.05); */
+  border-radius: 12px;
+  display: block;
+}
+
+.mobile-gallery .section-title {
+  text-align: left;
+  display: block;
+  /* 确保标题是块级元素 */
+  width: 100%;
+  /* 占据全部宽度 */
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 1rem;
+  background: none;
+}
+
+.carousel-item {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  /* 防止图片超出容器 */
+}
+
+.gallery-image {
+  width: 100%;
+  height: 100%;
+  /* 确保高度也填充容器 */
+  object-fit: cover;
+  object-position: center;
+  /* 确保图片居中显示 */
+}
+
+/* 调整 Element Plus 轮播组件样式 */
+:deep(.el-carousel) {
+  border-radius: 8px;
+}
+
+:deep(.el-carousel__arrow) {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #333;
+}
+
+:deep(.el-carousel__indicators) {
+  bottom: -25px;
+}
+
+:deep(.el-carousel__button) {
+  background-color: #ccc;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+:deep(.el-carousel__indicator.is-active button) {
+  background-color: #ffffff;
+}
+
+/* 响应式调整 */
+@media (min-width: 769px) {
+  .mobile-gallery {
+    display: none;
+  }
+}
+
+/* 新增的移动端专用样式 */
+.comment-cards-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  /* padding: 0 0.5rem; */
+  padding: 1rem;
+}
+
+.comment-cards-mobile .comment-card {
+  padding: 1rem;
+  border-radius: 12px;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 便签撕边效果 */
+.comment-cards-mobile .comment-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 50%, transparent 50%);
+}
+
+.comment-cards-mobile .comment-content {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #333;
+  width: 100%;
+  word-break: break-word;
+}
+
+/* 交互反馈 */
+.comment-cards-mobile .comment-card:active {
+  transform: scale(0.98);
+}
+
+/* 标题样式调整 */
+.comments-section .section-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+.view-more-btn {
+  width: 30% !important;
+  margin: 1rem auto !important;
+  /* 确保水平和垂直居中 */
+  display: block !important;
+}
+
+.comment-subtitle {
+  margin: 1rem 0 0.8rem;
+  display: inline-block;
+  position: relative;
+  text-align: left;
+
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #333;
+}
+
+/* 移动端联系页样式 */
+.contact-section-mobile {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.9);
+  margin-top: 1rem;
+}
+
+.contact-container-mobile {
+  max-width: 100%;
+}
+
+.section-title-mobile {
+  /* font-size: 1.5rem;
+  color: #333;
+  text-align: center; */
+  margin-bottom: 1.5rem;
+  /* background: linear-gradient(90deg, #00d4ff, #7a00ff); */
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+
+  text-align: left;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.contact-cards-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.contact-card-mobile {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* .contact-icon-mobile {
+  font-size: 1.8rem;
+  color: #7a00ff;
+  margin-right: 1rem;
+  flex-shrink: 0;
+} */
+
+.contact-info-mobile h4 {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.3rem;
+}
+
+.contact-info-mobile p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
+
+.contact-form-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group-mobile :deep(.el-input) {
+  width: 100%;
+}
+
+.form-group-mobile :deep(.el-input__inner) {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid #eee;
+  color: #333;
+}
+
+.submit-btn-mobile {
+  width: 30%;
+  padding: 0.8rem;
+  margin: 1rem auto;
+  /* background: linear-gradient(90deg, #00d4ff, #7a00ff);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer; */
+  transition: transform 0.2s;
+}
+
+.submit-btn-mobile:active {
+  transform: scale(0.98);
 }
 </style>
