@@ -1,25 +1,40 @@
 <template>
-    <div class="article">
+
+    <div v-if="isMobile" class="article-mobile">
+        <NavBar ref="navbar" />
+        <div class="mobile-list">
+            <h2>文章列表</h2>
+            <div class="mobile-post" v-for="(post, index) in posts" :key="index" @click="openDrawer(post)">
+                <div class="mobile-post-content">
+                    <h3 class="mobile-title">{{ post.title }}</h3>
+                    <p class="mobile-excerpt">{{ post.excerpt }}</p>
+                    <span class="mobile-more">阅读更多 →</span>
+                </div>
+            </div>
+        </div>
+
+        <el-drawer v-model="drawerVisible" title="文章详情" :with-header="false" size="80%">
+            <div v-if="selectedPost" class="mobile-detail">
+                <h3>{{ selectedPost.title }}</h3>
+                <el-divider />
+                <div class="mobile-detail-content">
+                    <div class="mobile-detail-item">
+                        <span class="mobile-label">标题：</span>
+                        <span>{{ selectedPost.title }}</span>
+                    </div>
+                    <div class="mobile-detail-item">
+                        <span class="mobile-label">摘要：</span>
+                        <span>{{ selectedPost.excerpt }}</span>
+                    </div>
+                </div>
+            </div>
+        </el-drawer>
+    </div>
+
+    <div v-else class="article">
         <NavBar ref="navbar" />
 
         <div class="article-list container">
-            <!-- 大文章展示 -->
-            <!-- <div class="article-content-big">
-                <img src="../../static/post.jpeg" alt="文章封面" class="big-image" />
-            </div>
-
-            <div class="article-content-small" v-for="(post, index) in posts" :key="index" @click="openDrawer(post)">
-                <div class="card">
-                    <img :src="post.thumbnail" alt="缩略图" class="thumbnail" />
-                    <div class="card-body">
-                        <h3 class="card-title">{{ post.title }}</h3>
-                        <p class="card-meta">{{ post.date }}</p>
-                        <p class="card-excerpt">{{ post.excerpt }}</p>
-                    </div>
-                </div>
-            </div> -->
-
-            <!-- 小文章卡片列表 -->
             <div class="post-cards">
                 <div class="post-card" v-for="(post, index) in posts" :key="index" @click="openDrawer(post)">
                     <div class="post-image" :style="{ backgroundImage: 'url(' + post.thumbnail + ')' }"></div>
@@ -31,8 +46,6 @@
                 </div>
             </div>
         </div>
-
-
 
         <el-drawer v-model="drawerVisible" title="文章详情" :with-header="false" size="40%">
             <div v-if="selectedPost" class="paper-detail">
@@ -59,16 +72,20 @@
             </div>
         </el-drawer>
     </div>
+
 </template>
 
 <script setup>
 import { API_BASE_URL, IMAGE_BASE_URL } from '@/config'
-
+import { useMediaQuery } from '@vueuse/core'
 import NavBar from '../components/NavBar.vue'
 import { ref, onMounted } from 'vue'
 const drawerVisible = ref(false)
 const selectedPost = ref(null)
 const navbar = ref(null)
+
+const isMobile = useMediaQuery('(max-width: 768px)')
+
 const posts = ref([
     {
         title: 'Vite+Vue的学习路线 #1',
@@ -84,7 +101,7 @@ const posts = ref([
         title: '交通预测+深度学习 #3',
         excerpt: '分享交通预测项目的实战经验，深入了解深度学习技术。',
         thumbnail: `${IMAGE_BASE_URL}/index/index-article/vuevite.webp`,
-    }, 
+    },
     {
         title: 'Vite+Vue的学习路线 #1',
         excerpt: '全面规划学习路径，从基础到高级，逐步深入。',
@@ -347,5 +364,75 @@ onMounted(() => {
 
 .read-more:hover {
     color: #f54747;
+}
+
+.article-mobile {
+    padding-top: 60px;
+    min-height: 100vh;
+    background-color: white;
+}
+
+.mobile-list {
+    padding: 15px;
+}
+
+.mobile-list h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.mobile-post {
+    background-color: white;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-post-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-title {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.mobile-excerpt {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.mobile-more {
+    align-self: flex-start;
+    font-size: 0.9rem;
+    color: #f54747;
+    font-weight: bold;
+}
+
+.mobile-detail {
+    padding: 20px;
+}
+
+.mobile-detail-content {
+    padding: 0 10px;
+}
+
+.mobile-detail-item {
+    margin: 15px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-label {
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 5px;
 }
 </style>
