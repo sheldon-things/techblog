@@ -1,16 +1,81 @@
 <template>
-    <div class="container">
+    <div v-if="!isMobile" class="container">
         <NavBar ref="navbar" />
 
         <div class="table-container">
-            <el-table :data="tableData" :default-sort="{ prop: 'date', order: 'descending' }" @row-click="openTableDrawer">
-                <el-table-column prop="year" label="年份" sortable  width="100" />
+            <el-table :data="tableData" :default-sort="{ prop: 'date', order: 'descending' }"
+                @row-click="openTableDrawer">
+                <el-table-column prop="year" label="年份" sortable width="100" />
                 <el-table-column prop="titleZh" label="中文标题" width="250" />
                 <el-table-column prop="titleEn" label="英文标题" width="250" />
                 <el-table-column prop="researchArea" label="研究方向" width="170" />
                 <el-table-column prop="journal" label="期刊/会议" width="200" />
                 <el-table-column label="作者" :formatter="formatAuthors" width="190" />
             </el-table>
+        </div>
+    </div>
+
+    <!-- 移动端专属容器 -->
+    <div v-else class="paper-container-mobile">
+        <!-- 导航栏 -->
+        <NavBar ref="navbar" />
+
+        <!-- 论文列表 -->
+        <div class="mobile-paper-list">
+            <div v-for="(paper, index) in papers" :key="index" class="mobile-paper-item"
+                @click="openPaperDetail(paper)">
+                <div class="mobile-paper-header">
+                    <span class="mobile-paper-year">{{ paper.year }}</span>
+                    <span class="mobile-paper-type">{{ paper.type }}</span>
+                </div>
+                <h3 class="mobile-paper-title">{{ paper.titleZh }}</h3>
+                <p class="mobile-paper-subtitle">{{ paper.titleEn }}</p>
+                <div class="mobile-paper-meta">
+                    <span class="mobile-paper-journal">{{ paper.journal }}</span>
+                    <span class="mobile-paper-authors">{{ paper.authors.join('、') }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 论文详情页 -->
+    <div v-if="currentPaper" class="mobile-paper-detail" :class="{ 'active': showDetail }">
+        <div class="mobile-detail-header">
+            <button class="mobile-back-btn" @click="closePaperDetail">
+                <i class="el-icon-arrow-left"></i> 返回
+            </button>
+            <h2 class="mobile-detail-title">论文详情</h2>
+        </div>
+
+        <div class="mobile-detail-content">
+            <h3 class="mobile-detail-title-zh">{{ currentPaper.titleZh }}</h3>
+            <p class="mobile-detail-title-en">{{ currentPaper.titleEn }}</p>
+
+            <div class="mobile-detail-item">
+                <span class="mobile-detail-label">类型：</span>
+                <span>{{ currentPaper.type }}</span>
+            </div>
+            <div class="mobile-detail-item">
+                <span class="mobile-detail-label">研究方向：</span>
+                <span>{{ currentPaper.researchArea }}</span>
+            </div>
+            <div class="mobile-detail-item">
+                <span class="mobile-detail-label">发表年份：</span>
+                <span>{{ currentPaper.year }}</span>
+            </div>
+            <div class="mobile-detail-item">
+                <span class="mobile-detail-label">期刊/会议：</span>
+                <span>{{ currentPaper.journal }}</span>
+            </div>
+            <div class="mobile-detail-item">
+                <span class="mobile-detail-label">作者：</span>
+                <span>{{ currentPaper.authors.join('、') }}</span>
+            </div>
+
+            <div class="mobile-thumbnail-container" v-if="currentPaper.thumbnail">
+                <h4 class="mobile-thumbnail-title">论文封面</h4>
+                <img :src="currentPaper.thumbnail" :alt="currentPaper.titleZh" class="mobile-thumbnail" />
+            </div>
         </div>
     </div>
 
@@ -56,6 +121,10 @@ import NavBar from '../components/NavBar.vue'
 const navbar = ref(null)
 import { computed, ref } from 'vue';
 import { ElMessageBox } from 'element-plus'
+import { useMediaQuery } from '@vueuse/core'
+
+const isMobile = useMediaQuery('(max-width: 768px)')
+
 
 // 示例数据：论文列表
 const papers = [
@@ -106,6 +175,7 @@ const groupedPapers = computed(() => {
 const drawerVisible = ref(false)
 const direction = ref('rtl') // 从右至左
 const currentPaper = ref(null)
+const showDetail = ref(false)
 
 const openDrawer = (paper) => {
     currentPaper.value = paper
@@ -138,7 +208,21 @@ const openTableDrawer = (row) => {
     drawerVisible.value = true;
 };
 
+// 打开论文详情页
+const openPaperDetail = (paper) => {
+    currentPaper.value = paper
+    showDetail.value = true
+    document.body.style.overflow = 'hidden' // 禁止背景滚动
+}
 
+// 关闭论文详情页
+const closePaperDetail = () => {
+    showDetail.value = false
+    setTimeout(() => {
+        currentPaper.value = null
+        document.body.style.overflow = '' // 恢复背景滚动
+    }, 300) // 等待动画完成
+}
 </script>
 
 <style scoped>
@@ -196,5 +280,183 @@ const openTableDrawer = (row) => {
     max-height: 300px;
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 基础样式 */
+.paper-container-mobile {
+    width: 100%;
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, sans-serif;
+    padding-top: 60px;
+    background-color: #f8f9fa;
+}
+
+/* 论文列表样式 */
+.mobile-paper-list {
+    padding: 16px;
+}
+
+.mobile-paper-item {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.mobile-paper-item:active {
+    transform: scale(0.98);
+    background-color: #f0f0f0;
+}
+
+.mobile-paper-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.mobile-paper-year {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.mobile-paper-type {
+    font-size: 0.8rem;
+    color: #666;
+    background: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.mobile-paper-title {
+    font-size: 1.1rem;
+    margin: 8px 0;
+    color: #333;
+}
+
+.mobile-paper-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 12px;
+}
+
+.mobile-paper-meta {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.mobile-paper-journal {
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.mobile-paper-authors {
+    color: #888;
+}
+
+/* 论文详情页样式 */
+.mobile-paper-detail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+}
+
+.mobile-paper-detail.active {
+    transform: translateX(0);
+}
+
+.mobile-detail-header {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+}
+
+.mobile-back-btn {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 1rem;
+    padding: 8px;
+    margin-right: 16px;
+}
+
+.mobile-detail-title {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.mobile-detail-content {
+    padding: 16px;
+}
+
+.mobile-detail-title-zh {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.mobile-detail-title-en {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 16px;
+}
+
+.mobile-detail-item {
+    margin: 12px 0;
+    display: flex;
+    font-size: 0.95rem;
+}
+
+.mobile-detail-label {
+    font-weight: bold;
+    width: 80px;
+    flex-shrink: 0;
+    color: #555;
+}
+
+.mobile-thumbnail-container {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.mobile-thumbnail-title {
+    font-size: 1rem;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.mobile-thumbnail {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 小屏优化 */
+@media (max-width: 375px) {
+    .mobile-paper-title {
+        font-size: 1rem;
+    }
+
+    .mobile-detail-title-zh {
+        font-size: 1.1rem;
+    }
 }
 </style>

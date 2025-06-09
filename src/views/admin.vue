@@ -1,5 +1,16 @@
 <template>
-    <div class="common-layout">
+    <!-- 移动端提示 (在最外层添加) -->
+    <div v-if="isMobile" class="mobile-notice">
+        <NavBar ref="navbar" />
+
+        <el-result icon="warning" title="管理后台" subTitle="请使用电脑端访问管理后台">
+            <template #extra>
+                <el-button type="primary" @click="goToHome">返回首页</el-button>
+            </template>
+        </el-result>
+    </div>
+
+    <div v-else class="common-layout">
         <el-container>
             <NavBar ref="navbar" />
             <!-- 只有登录才显示管理布局 -->
@@ -163,6 +174,8 @@
 import { ref, onMounted, shallowRef } from 'vue'
 import { ElMessage } from 'element-plus'
 import { House, Notebook, DocumentCopy, Picture, User, ChatDotRound, Message, Setting } from '@element-plus/icons-vue'
+import { useMediaQuery } from '@vueuse/core'
+import { useRouter } from 'vue-router'
 
 // 导入各个管理组件
 import BackgroundManage from '../components/admin/BackgroundManage.vue'
@@ -180,6 +193,13 @@ import GalleryDelete from '../components/admin/GalleryDelete.vue'
 const activeComponent = shallowRef(null)
 
 import NavBar from '../components/NavBar.vue'
+
+const router = useRouter()
+const isMobile = useMediaQuery('(max-width: 768px)')
+
+const goToHome = () => {
+    router.push('/')
+}
 // 菜单点击处理
 const handleMenuClick = (index: string) => {
     switch (index) {
@@ -404,5 +424,17 @@ const handleLogout = () => {
     width: 100% !important;
     transition: none !important;
     /* 禁用过渡动画 */
+}
+
+/* 移动端提示样式 */
+.mobile-notice {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #f5f7fa;
+    padding: 20px;
+    text-align: center;
 }
 </style>
